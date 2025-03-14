@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en" class="dark"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Name laqab</title>
+    <link rel="canonical" href="https://example.com/">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1b1b1f">
+<link rel="shortcut icon" href="https://example.com/favicon.png">
+<link rel="stylesheet" href="Anton%20Medvedev_files/global.css">
+
+
+<script async="" src="Anton%20Medvedev_files/tag.js"></script><script>
+  function applyTheme() {
+    let savedTheme = null
+    try {
+      savedTheme = localStorage.getItem('dark')
+    } catch (e) {
+    }
+    const meta = document.querySelector('meta[name=theme-color]')
+    if (savedTheme !== null) {
+      if (savedTheme === 'true') {
+        document.documentElement.classList.add('dark')
+        meta.setAttribute('content', '#1b1b1f')
+      } else {
+        document.documentElement.classList.remove('dark')
+        meta.setAttribute('content', '#ebebef')
+      }
+    } else {
+      // If no setting is saved, use the system preference.
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.classList.add('dark')
+        meta.setAttribute('content', '#1b1b1f')
+      }
+    }
+  }
+
+  applyTheme()
+</script>
+    <style>
+      header {
+        max-width: var(--max-width);
+        padding-inline: var(--main-padding);
+        margin: 20px auto 20px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      header h1 {
+        font-size: 40px;
+        line-height: 1;
+        margin-block: 0;
+      }
+
+      .avatar {
+        position: relative;
+        overflow: hidden;
+        flex-shrink: 0;
+        width: 82px;
+        height: 82px;
+        border-radius: 50%;
+        background: #fff;
+        float: left;
+        margin: 10px;
+      }
+
+      .avatar img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .avatar .reveal {
+        opacity: 0;
+        transition: opacity 1s;
+      }
+
+      .things {
+        margin-block: 36px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        align-items: stretch;
+      }
+
+      .things > * {
+        display: block;
+        overflow: hidden;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 4/3;
+        border-radius: 23px;
+      }
+
+      @media (max-width: 768px) {
+        .things {
+          grid-template-columns: 1fr;
+        }
+
+        .things > * {
+          border-radius: 10px;
+          aspect-ratio: 8/5;
+        }
+      }
+
+      .bit-planes {
+        cursor: pointer;
+      }
+
+      .bit-planes iframe {
+        user-select: none;
+        pointer-events: none;
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      .map {
+        position: relative;
+      }
+
+      .map-paper {
+        position: absolute;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+      }
+
+      .map span {
+        display: block;
+        width: 256px;
+        height: 256px;
+        background: var(--light);
+        background-size: 256px 256px;
+      }
+
+      html.dark .map span {
+        background-image: var(--dark);
+      }
+
+      .location-marker {
+        position: relative;
+        top: calc(50% - 20px);
+        left: calc(50% - 20px);
+        width: 40px;
+        height: 40px;
+      }
+
+      .location-marker .dot {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 12px;
+        height: 12px;
+        background: #007BFF;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 3;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+      }
+
+      .location-marker .ripple {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 12px;
+        height: 12px;
+        border: 1px solid #007BFF;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        opacity: 0;
+        animation: ripple-animation 4s infinite;
+      }
+
+      .location-marker .ripple:nth-child(1) {
+        animation-delay: 0s;
+      }
+
+      .location-marker .ripple:nth-child(2) {
+        animation-delay: 2s;
+      }
+
+      @keyframes ripple-animation {
+        0% {
+          transform: translate(-50%, -50%) scale(1);
+          opacity: 0.5;
+        }
+        100% {
+          transform: translate(-50%, -50%) scale(4);
+          opacity: 0;
+        }
+      }
+    </style>
+</head>
+<body>
+<style>
+  nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-block: 10px;
+    gap: 20px;
+    position: relative;
+  }
+
+  nav a {
+    color: var(--vp-c-brand-1);
+    text-decoration: none;
+  }
+
+  nav a:hover {
+    color: var(--vp-c-brand-2);
+  }
+
+  .nav-title a {
+    font-size: 20px;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--vp-c-brand-1);
+    text-decoration: none;
+  }
+
+  .nav-title a:hover {
+    color: var(--vp-c-brand-2);
+    text-decoration: underline;
+  }
+
+  .nav-menu {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .nav-element {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    white-space: nowrap;
+  }
+
+  .nav-element:before {
+    margin-right: 18px;
+    margin-left: 18px;
+    width: 1px;
+    height: 24px;
+    background-color: var(--vp-c-divider);
+    content: "";
+  }
+
+  .nav-element:first-child:before {
+    display: none;
+  }
+
+  .nav-element > *:not(:first-child) {
+    margin-left: 21px;
+  }
+
+  nav svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--vp-c-text-2);
+  }
+
+  nav a:hover svg {
+    fill: var(--vp-c-text-1);
+  }
+
+  .dark-toggle {
+    position: relative;
+    display: block;
+    cursor: pointer;
+    border-radius: 11px;
+    width: 40px;
+    height: 22px;
+    flex-shrink: 0;
+    border: 1px solid var(--vp-input-border-color);
+    background-color: var(--vp-input-switch-bg-color);
+    transition: border-color .25s !important;
+  }
+
+  .dark-toggle:hover {
+    border-color: var(--vp-c-brand-1);
+  }
+
+  .dark-toggle__check {
+    pointer-events: auto;
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: var(--vp-c-neutral-inverse);
+    box-shadow: var(--vp-shadow-1);
+    transition: transform .25s !important;
+  }
+
+  .dark .dark-toggle__check {
+    transform: translateX(18px);
+  }
+
+  .dark-toggle__icon {
+    position: relative;
+    display: block;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  .dark-toggle__icon svg {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 12px;
+    height: 12px;
+    fill: var(--vp-c-text-2);
+  }
+
+  .dark-toggle__icon .moon {
+    opacity: 0;
+  }
+
+  .dark .dark-toggle__icon .moon {
+    opacity: 1;
+  }
+
+  .dark .dark-toggle__icon .sun {
+    opacity: 0;
+  }
+
+  nav .my-time {
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    padding-inline: 6px;
+    padding-block: 4px;
+    background: var(--vp-c-gray-soft);
+    border-radius: 11px;
+    height: 22px;
+  }
+
+  .nav-mobile,
+  .nav-popup {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .nav-mobile {
+      display: flex;
+    }
+
+    .nav-desktop {
+      display: none;
+    }
+
+    .nav-popup.active {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 20px;
+      position: absolute;
+      top: 100%;
+      right: 28px;
+      background: var(--vp-c-bg-soft);
+      padding: 20px;
+      border-radius: 11px;
+      border: 1px solid var(--vp-c-border);
+      z-index: 100;
+    }
+  }
+</style>
+
+<nav>
+    <div class="nav-title">
+        <a href="https://example.com/">medv</a>
+    </div>
+
+    <div class="nav-menu nav-mobile">
+        <div class="nav-element">
+            <button class="dark-toggle" role="switch" aria-label="Toggle dark mode">
+              <span class="dark-toggle__check">
+                <span class="dark-toggle__icon">
+                  <svg class="sun" aria-hidden="true" focusable="false"><use xlink:href="#sun"></use></svg>
+                  <svg class="moon" aria-hidden="true" focusable="false"><use xlink:href="#moon"></use></svg>
+                </span>
+              </span>
+            </button>
+        </div>
+        <div class="nav-element">
+            <a href="" class="hamburger-toggle" aria-label="Toggle menu">
+                <svg aria-hidden="true" focusable="false">
+                    <use xlink:href="#menu"></use>
+                </svg>
+            </a>
+        </div>
+    </div>
+
+    <div class="nav-popup">
+        <a href="https://example.com/projects">projects</a>
+        
+        <a href="https://github.com/antonmedv">github</a>
+    </div>
+
+    <div class="nav-menu nav-desktop">
+        <div class="nav-element">
+            <a href="https://example.com/projects">projects</a>
+            
+            <div class="my-time" tabindex="0">04:24</div>
+        </div>
+        <div class="nav-element">
+            <button class="dark-toggle" role="switch" aria-label="Toggle dark mode">
+              <span class="dark-toggle__check">
+                <span class="dark-toggle__icon">
+                  <svg class="sun" aria-hidden="true" focusable="false"><use xlink:href="#sun"></use></svg>
+                  <svg class="moon" aria-hidden="true" focusable="false"><use xlink:href="#moon"></use></svg>
+                </span>
+              </span>
+            </button>
+        </div>
+        <div class="nav-element">
+            <a href="https://github.com/antonmedv" aria-label="GitHub">
+                <svg aria-hidden="true" focusable="false">
+                    <use xlink:href="#github"></use>
+                </svg>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<script>
+  function toggleDarkTheme() {
+    const dark = document.documentElement.classList.toggle('dark')
+    try {
+      localStorage.setItem('dark', dark)
+    } catch (e) {
+    }
+    const meta = document.querySelector('meta[name=theme-color]')
+    meta.setAttribute('content', dark ? '#1b1b1f' : '#ebebef')
+  }
+
+  function initMyTime() {
+    const myTime = document.querySelector('.my-time')
+    const format = new Intl.DateTimeFormat('ru-RU', {
+      timeZone: 'Europe/Zurich',
+      hour: 'numeric',
+      minute: 'numeric',
+    })
+    const syncTime = () => {
+      const newTime = format.format(new Date())
+      if (myTime.innerText !== newTime) {
+        myTime.innerText = newTime
+      }
+    }
+    syncTime()
+    setInterval(syncTime, 1000)
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    initMyTime()
+
+    for (const element of document.querySelectorAll('.dark-toggle')) {
+      element.addEventListener('click', toggleDarkTheme)
+    }
+
+    const hamburgerToggle = document.querySelector('.hamburger-toggle')
+    const navPopup = document.querySelector('.nav-popup')
+    hamburgerToggle.addEventListener('click', function (event) {
+      event.preventDefault()
+      navPopup.classList.toggle('active')
+    })
+
+    document.addEventListener('click', function (e) {
+      if (
+        navPopup.classList.contains('active') &&
+        !navPopup.contains(e.target) &&
+        !hamburgerToggle.contains(e.target)
+      ) {
+        navPopup.classList.remove('active')
+      }
+    })
+  })
+</script>
+
+
+<svg style="display: none" aria-hidden="true" focusable="false">
+
+    <symbol id="moon" viewBox="0 0 24 24">
+        <path d="M12.1,22c-0.3,0-0.6,0-0.9,0c-5.5-0.5-9.5-5.4-9-10.9c0.4-4.8,4.2-8.6,9-9c0.4,0,0.8,0.2,1,0.5c0.2,0.3,0.2,0.8-0.1,1.1c-2,2.7-1.4,6.4,1.3,8.4c2.1,1.6,5,1.6,7.1,0c0.3-0.2,0.7-0.3,1.1-0.1c0.3,0.2,0.5,0.6,0.5,1c-0.2,2.7-1.5,5.1-3.6,6.8C16.6,21.2,14.4,22,12.1,22zM9.3,4.4c-2.9,1-5,3.6-5.2,6.8c-0.4,4.4,2.8,8.3,7.2,8.7c2.1,0.2,4.2-0.4,5.8-1.8c1.1-0.9,1.9-2.1,2.4-3.4c-2.5,0.9-5.3,0.5-7.5-1.1C9.2,11.4,8.1,7.7,9.3,4.4z"></path>
+    </symbol>
+    <symbol id="github" viewBox="0 0 24 24">
+        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path>
+    </symbol>
+    <symbol id="menu" viewBox="0 0 24 24">
+        <path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path>
+    </symbol>
+</svg>
+<header>
+    <div class="avatar">
+        <img src="Anton%20Medvedev_files/avatar.webp" alt="Anton's avatar">
+        <img src="Anton%20Medvedev_files/avatar-reveal.webp" alt="Anton's avatar" class="reveal">
+        <script>
+          const avatar = document.querySelector('.avatar')
+          const opacity = x => _ => avatar.querySelector('.reveal').style.opacity = x
+          avatar.addEventListener('mouseover', opacity(1))
+          avatar.addEventListener('mouseout', opacity(0))
+        </script>
+    </div>
+    <h1>yourname laqab</h1>
+</header>
+<main>
+    <p>
+        I’m Anton, a software engineer and the creator of tools like
+        <a href="https://github.com/google/zx">google/zx</a>,
+        <a href="https://deployer.org/">deployer</a>,
+        <a href="https://expr-lang.org/">expr-lang</a>,
+        and many more.
+        These projects didn’t just happen — they’re the result of late nights, caffeine-fueled brainstorming, and a bit
+        of stubbornness to make things simpler for developers.
+    </p>
+    <p>
+        I live in <span>Switzerland</span>, where I spend my time cycling, skiing, and
+        coding. I also enjoy
+        building <span>LEGO</span> in my spare time. I worked at Google as
+        <span>SRE</span>, and at Aviasales as
+        <span>SWE</span>. Currently, I work at
+        <a href="https://cerrion.com/">Cerrion</a>
+        as <span>FSD</span>.
+    </p>
+    <p>
+        At the core, I believe good software is like a good joke — it works best when it’s simple, unexpected, and
+        leaves you wondering why no one thought of it earlier.
+    </p>
+</main>
+<section>
+    <h2>Links</h2>
+    <ul>
+        <li>Email me at <a href="mailto:anton+medv@medv.io">anton+medv@medv.io</a></li>
+        <li>Follow me on <a href="https://github.com/antonmedv">GitHub</a></li>
+        <li>Connect with me on <a href="https://www.linkedin.com/in/anton-medv/">LinkedIn</a></li>
+        <li>Here is my <a href="https://example.com/wish-list">Wish list</a></li>
+    </ul>
+</section>
+
+<footer>
+    <div class="footer-links">
+        <div>© 2025 Anton Medvedev</div>
+        <div style="font-family: Tahoma, sans-serif">
+                        <span style="font-size: 8px">
+                0.007 second
+            </span>
+            <span style="font-size: 8px">
+                            </span>
+        </div>
+</div></footer>
+
+<style>
+  .footer-links {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .popup-title {
+    pointer-events: none;
+    user-select: none;
+    position: fixed;
+    font-size: 16px;
+    line-height: 1.5;
+    max-width: 300px;
+    padding: 4px 10px;
+    border-radius: 11px;
+    z-index: 1000;
+
+    background-color: #eff1f3;
+    color: rgba(60, 60, 67);
+  }
+
+  .dark .popup-title {
+    background-color: rgb(241, 241, 241);
+    color: #000;
+  }
+</style>
+
+<script>
+  { // Tooltips
+    const showTitle = title => event => {
+      const titleNode = document.createElement('div')
+      titleNode.classList.add('popup-title')
+      titleNode.innerText = title
+      document.body.appendChild(titleNode)
+
+      const targetRect = event.currentTarget.getBoundingClientRect()
+      const titleNodeRect = titleNode.getBoundingClientRect()
+
+      let top = targetRect.top + targetRect.height + 6
+      let left = targetRect.left + targetRect.width / 2 - titleNodeRect.width / 2
+
+      const maxRight = window.innerWidth - titleNodeRect.width - 10
+      const maxLeft = 10
+      const maxBottom = window.innerHeight - titleNodeRect.height - 10
+
+      if (left < maxLeft) {
+        left = maxLeft
+      } else if (left > maxRight) {
+        left = maxRight
+      }
+
+      if (top > maxBottom) {
+        top = targetRect.top - titleNodeRect.height - 6
+      }
+
+      titleNode.style.top = `${top}px`
+      titleNode.style.left = `${left}px`
+    }
+
+    const hideTitle = () => {
+      const titleNode = document.querySelector('.popup-title')
+      if (titleNode) {
+        titleNode.remove()
+      }
+    }
+    const titled = document.querySelectorAll('[title]')
+    for (let i = 0; i < titled.length; i++) {
+      const title = titled[i].getAttribute('title')
+      titled[i].removeAttribute('title')
+      titled[i].addEventListener('mouseover', showTitle(title))
+      titled[i].addEventListener('mouseout', hideTitle)
+    }
+    document.addEventListener('scroll', hideTitle)
+  }
+</script>
+
+</body></html>
